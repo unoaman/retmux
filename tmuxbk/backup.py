@@ -47,7 +47,13 @@ def load_sessions():
         #s is like  sessName:(200,300):1
         s_l = s.split(config.SEP)
         session =tmux_obj.Session(s_l[0]) 
-        session.size = eval(s_l[1])
+        size_str = s_l[1]
+        print size_str[size_str.find('(')+1 : size_str.find(',')]
+        if size_str[size_str.find('(')+1 : size_str.find(',')] == '':
+            session.size = eval('(200,200)')
+        else:
+            session.size = eval(s_l[1])
+
         session.attached = int(s_l[2])>0
         #load windows
         session.windows = load_windows(session.name)
